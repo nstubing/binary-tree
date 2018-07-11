@@ -9,7 +9,6 @@ namespace BInarySearchTree
     class BinarySearchTree
     {
         public Node root;
-        public int count;
 
 
         public BinarySearchTree()
@@ -24,7 +23,7 @@ namespace BInarySearchTree
             if (current == null)
             {
                 root = new Node(number);
-                count++;
+                added = true;
             }
             while (added == false)
             {
@@ -32,13 +31,11 @@ namespace BInarySearchTree
                 {
                     current.childLeft = new Node(number);
                     added = true;
-                    count++;
                 }
                 else if (current.childRight == null && number > current.nodeValue)
                 {
                     current.childRight = new Node(number);
                     added = true;
-                    count++;
                 }
                 else if (current.childLeft != null && number < current.nodeValue)
                 {
@@ -57,24 +54,28 @@ namespace BInarySearchTree
             Node current = root;
             bool found = false;
             string foundPath = "I found "+number+" in the binary tree and it took a path of";
-            for(int i = 0;(current.childLeft!=null || current.childRight!=null) && found==false;i++)
+            for(int i = 0; found==false;i++)
             {
                 if(number==current.nodeValue)
                 {
                     found = true;
                 }
-                else if ( number<current.nodeValue)
+                else if (current.childLeft != null && number <current.nodeValue)
                 {
                     current = current.childLeft;
                     foundPath += "  LEFT";
                 }
-                else if(number>current.nodeValue)
+                else if(current.childRight != null && number > current.nodeValue)
                 {
                     current = current.childRight;
                     foundPath += "  RIGHT";
                 }
+                else 
+                {
+                    return;
+                }
             }
-            if (found=true)
+            if (found==true)
             {
                 foundPath += ".";
                 Console.WriteLine(foundPath);
